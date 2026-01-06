@@ -1,0 +1,17 @@
+{
+  "name": "schedule-tracker-core",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Keel - A calm, household-level web application for tracking kids' activities, camps, schedules, and costs",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "generate-types": "tsx scripts/generate-types.ts"
+  },
+  "devDependencies": {
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.0"
+  }
+}
