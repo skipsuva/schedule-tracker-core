@@ -1,0 +1,2 @@
+-- Seed data for local development
+-- This file is executed after migrations when running `supabase db reset`
