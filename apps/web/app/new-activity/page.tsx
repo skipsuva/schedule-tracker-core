@@ -8,6 +8,11 @@ export default function NewActivityPage() {
   const [title, setTitle] = useState('')
   const [startAt, setStartAt] = useState('')
   const [endAt, setEndAt] = useState('')
+  const [recurrenceWeekday, setRecurrenceWeekday] = useState<string>('')
+  const [recurrenceStartTime, setRecurrenceStartTime] = useState('')
+  const [recurrenceEndTime, setRecurrenceEndTime] = useState('')
+  const [recurrenceStartsOn, setRecurrenceStartsOn] = useState('')
+  const [recurrenceEndsOn, setRecurrenceEndsOn] = useState('')
   const [result, setResult] = useState<Activity | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
@@ -27,12 +32,24 @@ export default function NewActivityPage() {
       const startAtISO = new Date(startAt).toISOString()
       const endAtISO = new Date(endAt).toISOString()
 
+      // Prepare recurrence fields
+      const recurrenceWeekdayNum = recurrenceWeekday ? parseInt(recurrenceWeekday, 10) : null
+      const recurrenceStartTimeValue = recurrenceStartTime || null
+      const recurrenceEndTimeValue = recurrenceEndTime || null
+      const recurrenceStartsOnValue = recurrenceStartsOn || null
+      const recurrenceEndsOnValue = recurrenceEndsOn || null
+
       const activity = await createActivity(
         TEST_HOUSEHOLD_ID,
         TEST_CHILD_ID,
         title,
         startAtISO,
-        endAtISO
+        endAtISO,
+        recurrenceWeekdayNum,
+        recurrenceStartTimeValue,
+        recurrenceEndTimeValue,
+        recurrenceStartsOnValue,
+        recurrenceEndsOnValue
       )
 
       setResult(activity)
@@ -91,6 +108,85 @@ export default function NewActivityPage() {
             required
             className="w-full px-3 py-2 border border-gray-300 rounded"
           />
+        </div>
+
+        <div className="pt-4 mt-4 border-t border-gray-200">
+          <h2 className="text-lg font-semibold mb-4">Recurrence (Optional)</h2>
+          
+          <div className="space-y-4">
+            <div>
+              <label htmlFor="recurrenceWeekday" className="block mb-1">
+                Day of Week
+              </label>
+              <select
+                id="recurrenceWeekday"
+                value={recurrenceWeekday}
+                onChange={(e) => setRecurrenceWeekday(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded"
+              >
+                <option value="">Select a day</option>
+                <option value="0">Sunday</option>
+                <option value="1">Monday</option>
+                <option value="2">Tuesday</option>
+                <option value="3">Wednesday</option>
+                <option value="4">Thursday</option>
+                <option value="5">Friday</option>
+                <option value="6">Saturday</option>
+              </select>
+            </div>
+
+            <div>
+              <label htmlFor="recurrenceStartTime" className="block mb-1">
+                Start Time
+              </label>
+              <input
+                type="time"
+                id="recurrenceStartTime"
+                value={recurrenceStartTime}
+                onChange={(e) => setRecurrenceStartTime(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="recurrenceEndTime" className="block mb-1">
+                End Time
+              </label>
+              <input
+                type="time"
+                id="recurrenceEndTime"
+                value={recurrenceEndTime}
+                onChange={(e) => setRecurrenceEndTime(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="recurrenceStartsOn" className="block mb-1">
+                Start Date
+              </label>
+              <input
+                type="date"
+                id="recurrenceStartsOn"
+                value={recurrenceStartsOn}
+                onChange={(e) => setRecurrenceStartsOn(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="recurrenceEndsOn" className="block mb-1">
+                End Date (Optional)
+              </label>
+              <input
+                type="date"
+                id="recurrenceEndsOn"
+                value={recurrenceEndsOn}
+                onChange={(e) => setRecurrenceEndsOn(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded"
+              />
+            </div>
+          </div>
         </div>
 
         <button

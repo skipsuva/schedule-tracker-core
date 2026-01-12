@@ -8,7 +8,12 @@ export async function createActivity(
   child_id: string,
   title: string,
   start_at: string,
-  end_at: string
+  end_at: string,
+  recurrence_weekday?: number | null,
+  recurrence_start_time?: string | null,
+  recurrence_end_time?: string | null,
+  recurrence_starts_on?: string | null,
+  recurrence_ends_on?: string | null
 ): Promise<Activity> {
   const supabase = createSupabaseServerClient()
 
@@ -20,6 +25,11 @@ export async function createActivity(
       title,
       start_at,
       end_at,
+      recurrence_weekday: recurrence_weekday ?? null,
+      recurrence_start_time: recurrence_start_time ?? null,
+      recurrence_end_time: recurrence_end_time ?? null,
+      recurrence_starts_on: recurrence_starts_on ?? null,
+      recurrence_ends_on: recurrence_ends_on ?? null,
     })
     .select()
     .single()
